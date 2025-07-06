@@ -13,6 +13,7 @@ async function bootstrap() {
       'http://localhost:3000',
       'http://localhost:3001',
       'https://back-typing-app-production.up.railway.app',
+      'https://coruscating-sunshine-cbfbed.netlify.app',
     ],
     credentials: true,
   });
