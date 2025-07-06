@@ -12,6 +12,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'http://localhost:3001',
+      'http://localhost:8080',
       'https://back-typing-app-production.up.railway.app',
       'https://coruscating-sunshine-cbfbed.netlify.app',
     ],
