@@ -9,7 +9,11 @@ async function bootstrap() {
 
   // Enable CORS for frontend communication
   app.enableCors({
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'https://back-typing-app-production.up.railway.app',
+    ],
     credentials: true,
   });
 
