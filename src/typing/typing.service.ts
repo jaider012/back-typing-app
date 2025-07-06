@@ -26,43 +26,52 @@ export class TypingService {
   }
 
   async getUserTypingTests(uid: string, limit: number = 10) {
-    const firestore = this.firebaseService.getFirestore();
-    const testsRef = firestore
-      .collection('tests')
-      .where('uid', '==', uid)
-      .orderBy('createdAt', 'desc')
-      .limit(limit);
+    try {
+      const firestore = this.firebaseService.getFirestore();
+      const testsRef = firestore
+        .collection('TypingTests')
+        .where('uid', '==', uid)
+        .limit(limit);
 
-    const snapshot = await testsRef.get();
-    const tests = [];
+      const snapshot = await testsRef.get();
+      const tests = [];
 
-    snapshot.forEach((doc) => {
-      tests.push({
-        id: doc.id,
-        ...doc.data(),
+      snapshot.forEach((doc) => {
+        tests.push({
+          id: doc.id,
+          ...doc.data(),
+        });
       });
-    });
 
-    return tests;
+      return tests;
+    } catch (error) {
+      console.error('Error getting user typing tests:', error);
+      throw error;
+    }
   }
 
   async getUserStats(uid: string) {
-    const firestore = this.firebaseService.getFirestore();
-    const userStatsRef = firestore.collection('userStats').doc(uid);
-    const doc = await userStatsRef.get();
+    try {
+      const firestore = this.firebaseService.getFirestore();
+      const userStatsRef = firestore.collection('userStats').doc(uid);
+      const doc = await userStatsRef.get();
 
-    if (!doc.exists) {
-      return {
-        totalTests: 0,
-        bestWpm: 0,
-        bestAccuracy: 0,
-        bestScore: 0,
-        averageWpm: 0,
-        averageAccuracy: 0,
-      };
+      if (!doc.exists) {
+        return {
+          totalTests: 0,
+          bestWpm: 0,
+          bestAccuracy: 0,
+          bestScore: 0,
+          averageWpm: 0,
+          averageAccuracy: 0,
+        };
+      }
+
+      return doc.data();
+    } catch (error) {
+      console.error('Error getting user stats:', error);
+      throw error;
     }
-
-    return doc.data();
   }
 
   private async updateUserStats(uid: string, testData: CreateTestDto) {
